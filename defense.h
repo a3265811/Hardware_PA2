@@ -3,12 +3,14 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <fstream>
 
 using namespace std;
 
 class Bn_Node{
 public:
 	Bn_Node() : id(-1), name(""), type(""), Ftype("") {}
+	Bn_Node(int _id, string _name, string _type, string _Ftype) : id(_id), name(_name), type(_type), Ftype(_Ftype) {}
 	Bn_Node(int _id, string _name, string _type, string _Ftype, vector<Bn_Node*> _FI_arr, vector<Bn_Node*> _FO_arr) : id(_id), name(_name), type(_type), Ftype(_Ftype), FI_arr(_FI_arr), FO_arr(_FO_arr) {}
 	~Bn_Node(){}
 	friend class Bn_Ntk;
@@ -16,8 +18,8 @@ public:
 private:
 	int id;
 	string name;
-	string type;
-	string Ftype;
+	string type;				// PI, PO, internal
+	string Ftype;				// type of gate
 	vector<Bn_Node*> FI_arr;
 	vector<Bn_Node*> FO_arr;
 };
@@ -26,7 +28,9 @@ class Bn_Ntk{
 public:
 	Bn_Ntk(){ }
 	~Bn_Ntk(){ }
-	void parser(int argc, char* argv[]);
+
+	Bn_Node* findNode(string str);
+	bool parser(int argc, char* argv[]);
 
 
 private:
