@@ -1,12 +1,29 @@
 #include "defense.h"
 
-Bn_Node* Bn_Ntk::findNode(string str){
-	for(int i = 0; i < Node_arr.size(); i++){
-		if(Node_arr[i]->name == str)
-			return Node_arr[i];
+int Bn_Ntk::findNode(vector<Bn_Node*> node_vec, string str){
+	for(int i = 0; i < node_vec.size(); i++){
+		if(node_vec[i]->name == str)
+			return i;
 	}
-	return NULL;
+	cout << "Can't find node ( " << str << " )" << endl;
+	return -1;
 }
+
+void Bn_Ntk::deleteNode(vector<Bn_Node*> &node_vec, string str){
+	int temp_pos = findNode(node_vec, str);
+		if(temp_pos != -1){
+			node_vec.erase(node_vec.begin() + temp_pos);
+			return;
+		}
+	cout << "Can't delete node ( " << str << " )" << endl;
+}
+
+void Bn_Ntk::changeName(Bn_Node* node, string str){
+	node->name = str;
+	return;
+}
+
+
 
 bool Bn_Ntk::parser(int argc, char* argv[]){
 	string str;
@@ -55,10 +72,10 @@ bool Bn_Ntk::parser(int argc, char* argv[]){
 				is_end = true;
 			}
 			while(end != -1){
-				Bn_Node *temp_fi = findNode(str.substr(start + 1, end - start - 1));
-				if(temp_fi != NULL){
-					temp_node->FI_arr.push_back(temp_fi);
-					temp_fi->FO_arr.push_back(temp_node);
+				int temp_fi = findNode(Node_arr, str.substr(start + 1, end - start - 1));
+				if(temp_fi != -1){
+					temp_node->FI_arr.push_back(Node_arr[temp_fi]);
+					Node_arr[temp_fi]->FO_arr.push_back(temp_node);
 				}
 				start = str.find(" ",end);
 				end = str.find(",",start);
@@ -89,12 +106,5 @@ bool Bn_Ntk::parser(int argc, char* argv[]){
 			}
 		}
 	}
-
-
-
-
-
-
-
 	return 0;
 }

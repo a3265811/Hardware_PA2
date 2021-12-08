@@ -29,7 +29,10 @@ public:
 	Bn_Ntk(){ }
 	~Bn_Ntk(){ }
 
-	Bn_Node* findNode(string str);
+	int findNode(vector<Bn_Node*> node_vec, string str);
+	void deleteNode(vector<Bn_Node*> &node_vec, string str);
+	void changeName(Bn_Node* node, string str);
+	void addPIPO(string str, bool mode);
 	bool parser(int argc, char* argv[]);
 
 
