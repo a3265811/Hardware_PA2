@@ -5,7 +5,6 @@ int Bn_Ntk::findNode(vector<Bn_Node*> node_vec, string str){
 		if(node_vec[i]->name == str)
 			return i;
 	}
-	cout << "Can't find node ( " << str << " )" << endl;
 	return -1;
 }
 
@@ -18,9 +17,50 @@ void Bn_Ntk::deleteNode(vector<Bn_Node*> &node_vec, string str){
 	cout << "Can't delete node ( " << str << " )" << endl;
 }
 
+void Bn_Ntk::printNodeArr(){
+	fstream fout;
+	fout.open("test_parser.txt",ios::out);
+	for(int i = 0; i < PI_arr.size(); i++){
+		fout << "INPUT(" << PI_arr[i]->name << ")" << endl;
+	}
+	for(int i = 0; i < PO_arr.size(); i++){
+		fout << "OUTPUT(" << PO_arr[i]->name << ")" << endl;
+	}
+	for(int i = 0; i < Node_arr.size(); i++){
+		if(Node_arr[i]->Ftype != "BUF"){
+			fout << Node_arr[i]->name << " = " << Node_arr[i]->Ftype << "(";
+			for(int j = 0; j < Node_arr[i]->FI_arr.size(); j++){
+				if(j == Node_arr[i]->FI_arr.size()-1)
+					fout << Node_arr[i]->FI_arr[j]->name << ")" << endl;
+				else
+					fout << Node_arr[i]->FI_arr[j]->name << ", ";
+			}
+		}
+	}
+}
+
 void Bn_Ntk::changeName(Bn_Node* node, string str){
 	node->name = str;
 	return;
+}
+
+void addPIPO(string str, bool mode){
+	if(!mode){ // PI
+		Bn_Node *temp_node = new (counter++, str, "PI", "BUF");
+		PI_arr.push_back(temp_node);
+		Node_arr.push_back(temp_node);
+	}
+	else{ //PO
+		Bn_Node *temp_node = new (counter++, str, "PO", "BUF");
+		PO_arr.push_back(temp_node);
+		Node_arr.push_back(temp_node);
+
+
+	}
+}
+
+void Bn_Ntk::test(){
+	printNodeArr();
 }
 
 
@@ -39,23 +79,29 @@ bool Bn_Ntk::parser(int argc, char* argv[]){
 		if(str.find("#") != -1)
 			continue;
 		else if(str.find("INPUT") != -1){ // input
+			Bn_Node* temp_node;
 			string name;
 			int start = str.find("(");
 			name = str.substr(start + 1, str.length() - start - 2 );
-			Node_arr.push_back(new Bn_Node(counter++, name, "PI", "BUF"));
+			temp_node = new Bn_Node(counter++, name, "PI", "BUF");
+			Node_arr.push_back(temp_node);
+			PI_arr.push_back(temp_node);
 		}
 		else if(str.find("OUTPUT") != -1){ // output
+			Bn_Node* temp_node;
 			string name;
 			int start = str.find("(");
 			name = str.substr(start + 1, str.length() - start - 2 );
-			Node_arr.push_back(new Bn_Node(counter++, name, "PO", "BUF"));
+			temp_node = new Bn_Node(counter++, name, "PO", "BUF");
+			Node_arr.push_back(temp_node);
+			PO_arr.push_back(temp_node);
 		}
 		else{	// internal node
 			if(str == "")
 				continue;
 			
 			string name, Ftype;
-			int start,end;
+			int start, end, pos;
 			bool is_end = false;
 			Bn_Node *temp_node;
 
@@ -63,7 +109,15 @@ bool Bn_Ntk::parser(int argc, char* argv[]){
 			start = str.find("= ");
 			end = str.find("(");
 			Ftype = str.substr(start + 2, end - start - 2);
-			temp_node = new Bn_Node(counter++, name, "internal", Ftype);
+			pos = findNode(Node_arr, name);
+			if(pos != -1){
+				temp_node = Node_arr[pos];
+				Node_arr.erase(Node_arr.begin()+pos);
+				temp_node->Ftype = Ftype;
+			}
+			else{
+				temp_node = new Bn_Node(counter++, name, "internal", Ftype);
+			}
 
 			start = end;
 			end = str.find(",");
@@ -83,28 +137,11 @@ bool Bn_Ntk::parser(int argc, char* argv[]){
 					end = str.find(")");
 					is_end = true;
 				}
-			}
+			}	
 			Node_arr.push_back(temp_node);
 		}
 	}
 	fin.close();
-	fstream fout;
-	fout.open("test_parser.txt",ios::out);
-	for(int i = 0; i < Node_arr.size(); i++){
-//		cout << Node_arr[i]->id << " " << Node_arr[i]->name << " " << Node_arr[i]->type << " " << Node_arr[i]->Ftype  << endl;
-		if(Node_arr[i]->type == "PI")
-			fout << "INPUT(" << Node_arr[i]->name << ")" << endl;
-		else if(Node_arr[i]->type == "PO")
-			fout << "OUTPUT(" << Node_arr[i]->name << ")" << endl;
-		else{
-			fout << Node_arr[i]->name << " = " << Node_arr[i]->Ftype << "(";
-			for(int j = 0; j < Node_arr[i]->FI_arr.size(); j++){
-				if(j == Node_arr[i]->FI_arr.size()-1)
-					fout << Node_arr[i]->FI_arr[j]->name << ")" << endl;
-				else
-					fout << Node_arr[i]->FI_arr[j]->name << ", ";
-			}
-		}
-	}
+	test();
 	return 0;
 }

@@ -1,0 +1,8 @@
+INPUT(a)
+INPUT(b)
+INPUT(c)
+INPUT(d)
+OUTPUT(g)
+e = and(a, b)
+f = and(c, d)
+g = or(e, f)

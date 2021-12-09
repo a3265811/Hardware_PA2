@@ -26,14 +26,17 @@ private:
 
 class Bn_Ntk{
 public:
-	Bn_Ntk(){ }
+	Bn_Ntk() : PI_count(0), PO_count(0), Node_count(0){ }
 	~Bn_Ntk(){ }
 
 	int findNode(vector<Bn_Node*> node_vec, string str);
 	void deleteNode(vector<Bn_Node*> &node_vec, string str);
+	void printNodeArr();
 	void changeName(Bn_Node* node, string str);
 	void addPIPO(string str, bool mode);
 	bool parser(int argc, char* argv[]);
+
+	void test();
 
 
 private:
