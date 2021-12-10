@@ -1,0 +1,8 @@
+execution command:
+	sh report.sh
+	1. input "s", then user can input directory name and last execution file name(if not yet execute, just input "none")
+	3. output file will put in report directory
+parse report file:
+	make
+	sh report.sh
+	1. input "r", then the output(.csv) file will bein "report" dirctory

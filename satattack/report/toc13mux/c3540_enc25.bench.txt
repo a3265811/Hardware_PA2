@@ -1,0 +1,28 @@
+inputs=50 keys=430 outputs=22 gates=1861
+iteration: 1; vars: 12013; clauses: 11552; decisions: 14395
+iteration: 2; vars: 15691; clauses: 14888; decisions: 31266
+iteration: 3; vars: 19369; clauses: 18315; decisions: 82106
+iteration: 4; vars: 23047; clauses: 21973; decisions: 129357
+iteration: 5; vars: 26725; clauses: 32839; decisions: 171278
+iteration: 6; vars: 30403; clauses: 28614; decisions: 198405
+iteration: 7; vars: 34081; clauses: 39370; decisions: 236270
+iteration: 8; vars: 37759; clauses: 34480; decisions: 270432
+iteration: 9; vars: 41437; clauses: 45046; decisions: 310052
+iteration: 10; vars: 45115; clauses: 39468; decisions: 340800
+iteration: 11; vars: 48793; clauses: 49988; decisions: 396685
+iteration: 12; vars: 52471; clauses: 60624; decisions: 443548
+iteration: 13; vars: 56149; clauses: 41528; decisions: 535764
+iteration: 14; vars: 59827; clauses: 52158; decisions: 544618
+iteration: 15; vars: 63505; clauses: 62790; decisions: 582693
+iteration: 16; vars: 67183; clauses: 47159; decisions: 607713
+iteration: 17; vars: 70861; clauses: 57749; decisions: 620226
+iteration: 18; vars: 74539; clauses: 68305; decisions: 655192
+iteration: 19; vars: 78217; clauses: 53036; decisions: 658861
+iteration: 20; vars: 81895; clauses: 63444; decisions: 673758
+iteration: 21; vars: 85573; clauses: 73874; decisions: 682510
+iteration: 22; vars: 89251; clauses: 84014; decisions: 684726
+iteration: 23; vars: 92929; clauses: 43424; decisions: 690240
+iteration: 24; vars: 96607; clauses: 24912; decisions: 830619
+finished solver loop. fail_count = 0
+key=0011110011010110000010110001111000111010111101000010100100011101010111010101001010000011010000100001100011101000100111010111111111101101011001011100010101010111100010100000101111100110110101111100110100111000000011100101010100110010001110010011000010111001000001000001000001100111101001111011100100000000011010100011000101101111101101101000000101000000110100010000111001001110010010111101100100000100010000001011100010010001101111
+iteration=24; backbones_count=0; cube_count=282012; cpu_time=19.2812; maxrss=28.9648

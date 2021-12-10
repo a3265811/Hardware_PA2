@@ -1,0 +1,8 @@
+inputs=199 keys=76 outputs=67 gates=1389
+iteration: 1; vars: 8367; clauses: 2794; decisions: 646
+iteration: 2; vars: 10971; clauses: 6600; decisions: 1374
+iteration: 3; vars: 13575; clauses: 10374; decisions: 7872
+iteration: 4; vars: 16179; clauses: 14113; decisions: 33974
+finished solver loop. fail_count = 0
+key=1110100010101011101100111110001000100001011011010001110110100100111010111011
+iteration=4; backbones_count=0; cube_count=32180; cpu_time=0.171875; maxrss=6.58594

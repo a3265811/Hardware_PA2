@@ -1,0 +1,27 @@
+inputs=10 keys=2538 outputs=10 gates=7040
+iteration: 1; vars: 47281; clauses: 85248; decisions: 238461
+iteration: 2; vars: 61335; clauses: 128976; decisions: 339027
+iteration: 3; vars: 75389; clauses: 141905; decisions: 2575214
+iteration: 4; vars: 89443; clauses: 185633; decisions: 3374151
+iteration: 5; vars: 103497; clauses: 198446; decisions: 5182019
+iteration: 6; vars: 117551; clauses: 226064; decisions: 7917984
+iteration: 7; vars: 131605; clauses: 253953; decisions: 10044860
+iteration: 8; vars: 145659; clauses: 281470; decisions: 13094671
+iteration: 9; vars: 159713; clauses: 308489; decisions: 15970577
+iteration: 10; vars: 173767; clauses: 352213; decisions: 18602110
+iteration: 11; vars: 187821; clauses: 363868; decisions: 23826259
+iteration: 12; vars: 201875; clauses: 407592; decisions: 29177884
+iteration: 13; vars: 215929; clauses: 416970; decisions: 40627809
+iteration: 14; vars: 229983; clauses: 460694; decisions: 46922114
+iteration: 15; vars: 244037; clauses: 504418; decisions: 62772116
+iteration: 16; vars: 258091; clauses: 498114; decisions: 81195241
+iteration: 17; vars: 272145; clauses: 541838; decisions: 90667862
+iteration: 18; vars: 286199; clauses: 551780; decisions: 117421438
+iteration: 19; vars: 300253; clauses: 577053; decisions: 158972990
+iteration: 20; vars: 314307; clauses: 603009; decisions: 205134905
+iteration: 21; vars: 328361; clauses: 617849; decisions: 296638974
+iteration: 22; vars: 342415; clauses: 642348; decisions: 404986677
+iteration: 23; vars: 356469; clauses: 668432; decisions: 453291030
+iteration: 24; vars: 370523; clauses: 695269; decisions: 506274176
+iteration: 25; vars: 384577; clauses: 721986; decisions: 564538854
+iteration: 26; vars: 398631; clauses: 742383; decisions: 680624537

@@ -1,0 +1,17 @@
+inputs=60 keys=111 outputs=26 gates=482
+iteration: 1; vars: 2925; clauses: 1758; decisions: 550
+iteration: 2; vars: 3779; clauses: 1879; decisions: 832
+iteration: 3; vars: 4633; clauses: 3801; decisions: 2250
+iteration: 4; vars: 5487; clauses: 1752; decisions: 2397
+iteration: 5; vars: 6341; clauses: 3676; decisions: 2878
+iteration: 6; vars: 7195; clauses: 1790; decisions: 3284
+iteration: 7; vars: 8049; clauses: 3752; decisions: 3589
+iteration: 8; vars: 8903; clauses: 1797; decisions: 3846
+iteration: 9; vars: 9757; clauses: 3535; decisions: 3963
+iteration: 10; vars: 10611; clauses: 1740; decisions: 4396
+iteration: 11; vars: 11465; clauses: 3427; decisions: 4711
+iteration: 12; vars: 12319; clauses: 1145; decisions: 4846
+iteration: 13; vars: 13173; clauses: 2915; decisions: 10454
+finished solver loop. fail_count = 0
+key=001111001101011000001011000111100011101011110100101010010001110101011101010100101000001101000010000110001110100
+iteration=13; backbones_count=0; cube_count=35302; cpu_time=0.1875; maxrss=4.44922
