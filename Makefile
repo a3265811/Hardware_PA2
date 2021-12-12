@@ -15,4 +15,4 @@ $(executable): $(objects)
 
 .PHONY: clean
 clean:
-	rm -rf *.o
+	rm -rf *.o *.bench

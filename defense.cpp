@@ -48,9 +48,23 @@ void Bn_Ntk::printNodeArr(char *argv[]){
 	fout.close();
 }
 
-void Bn_Ntk::changeName(Bn_Node* node, string str){
-	node->name = str;
+void Bn_Ntk::changeName(Bn_Node* node){
+	node->name = node->name + "$enc";
 	return;
+}
+
+void Bn_Ntk::addCost(string str, int num){
+	// calculat cost;
+	if(str == "and" || str == "or" || str == "nor" || str == "nand")
+		cost = cost + num -1;
+	else if(str == "not" || str == "buf")
+		cost += 1;
+	else if(str == "xor" || str == "xnor")
+		cost += 3;
+	else if(str == "Changebuf")
+		cost -= 1;
+	else
+		cerr << "error type cost" << endl;
 }
 
 Bn_Node* Bn_Ntk::addPI(){
@@ -106,17 +120,21 @@ bool Bn_Ntk::denseCompare(Bn_Node* node1, Bn_Node* node2){
 	return num1 < num2;
 }
 
+void Bn_Ntk::denseSort(vector<Bn_Node*> &dense_vec){
+	for(int i = 0; i < Node_arr.size(); i++){
+		if(Node_arr[i]->type != "PI" && Node_arr[i]->type != "PO")
+			dense_vec.push_back(Node_arr[i]);
+	}
+	sort(dense_vec.begin(),dense_vec.end(),denseCompare);
+}
+
 void Bn_Ntk::denseInsert(int num){
 	int pos;
 	int dice;
 	Bn_Node* temp_node;
 	vector<Bn_Node*> dense_arr;
+	denseSort(dense_arr);
 	srand(time(NULL));
-	for(int i = 0; i < Node_arr.size(); i++){
-		if(Node_arr[i]->type != "PI" && Node_arr[i]->type != "PO")
-			dense_arr.push_back(Node_arr[i]);
-	}
-	sort(dense_arr.begin(),dense_arr.end(),denseCompare);
 
 	for(int i = 0; i < num; i++){
 		dice = rand();
@@ -126,8 +144,7 @@ void Bn_Ntk::denseInsert(int num){
 			dice = 1;
 		else
 			dice = 2;
-		temp_node = addPI();
-		insertGate(temp_node, dense_arr[i], gate_choice[6], dense_arr[i]->FO_arr);
+		insertGate(addPI(), dense_arr[i], gate_choice[6], dense_arr[i]->FO_arr);
 		if(quota > 3)
 			quota -= 3; // xor mode
 		else
@@ -137,11 +154,7 @@ void Bn_Ntk::denseInsert(int num){
 
 void Bn_Ntk::doublePIkey(int num){
 	vector<Bn_Node*> dense_arr;
-	for(int i = 0; i < Node_arr.size(); i++){
-		if(Node_arr[i]->type != "PI")
-			dense_arr.push_back(Node_arr[i]);
-	}
-	sort(dense_arr.begin(),dense_arr.end(),denseCompare);
+	denseSort(dense_arr);
 	
 	for(int i = 0; i < num; i++){
 		Bn_Node* temp_node1 = addPI();
@@ -150,34 +163,50 @@ void Bn_Ntk::doublePIkey(int num){
 			i++;
 		dense_arr[i]->FI_arr.push_back(temp_node1);
 		dense_arr[i]->FI_arr.push_back(temp_node2);
+		changeName(dense_arr[i]);
 	
 		if(quota > 4)
 			quota -= 4;
 		else
 			return;
 	}
-	
-	
 }
 
-void Bn_Ntk::addCost(string str, int num){
-	// calculat cost;
-	if(str == "and" || str == "or" || str == "nor" || str == "nand")
-		cost = cost + num -1;
-	else if(str == "not" || str == "buf")
-		cost += 1;
-	else if(str == "xor" || str == "xnor")
-		cost += 3;
-	else if(str == "Changebuf")
-		cost -= 1;
-	else
-		cerr << "error type cost" << endl;
+void Bn_Ntk::notbuf2xor(int num){
+	vector<Bn_Node*> dense_arr;
+	denseSort(dense_arr);
+	for(int i = 0; i < dense_arr.size(); i++){
+		while(dense_arr[i]->Ftype != "buf" && dense_arr[i]->Ftype != "not")
+			i++;
+		dense_arr[i]->Ftype = "xor";
+		dense_arr[i]->FI_arr.push_back(addPI());
+		changeName(dense_arr[i]);
+		quota -= 2;
+		if(quota < 2 || num == 0)
+			break;
+		else
+			num--;
+	}
+}
+
+void Bn_Ntk::treeEncryption(int num){
+	vector<Bn_Node*> dense_arr;
+	denseSort(dense_arr);
+	for(int i = 0; i < dense_arr.size(); i++){
+		while(dense_arr[i]->FI_arr.size() == 1)
+			i++;
+		Bn_Node* temp_PI = dense_arr[i]->FI_arr[0];
+		vecotr<Bn_Node*> temp_POs = dense_arr[i]->FO_arr;
+		insertGate(addPI(), dense_arr[i]->FI_arr[0], "xor", dense_arr[i]->FI_arr[0]->FO_arr);
+		insertGate(addPI(), dense_arr[i], "xor", dense_arr[i]->FO_arr);
+
+	}
 }
 
 void Bn_Ntk::test(char *argv[]){
 	cout << "initial cost: " << cost << endl;
 	//denseInsert(internal_count * 0.5);
-	doublePIkey(internal_count * 0.5);
+	notbuf2xor(internal_count * 0.5);
 	printNodeArr(argv);
 	string str = argv[2];
 	str = str + " ";
