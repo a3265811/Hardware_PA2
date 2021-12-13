@@ -52,12 +52,13 @@ public:
 	// method
 	bool parser(int argc, char* argv[]);
 	Bn_Node* addPI();
-	void insertGate(Bn_Node* source_A, Bn_Node* source_B, string Ftype, vector<Bn_Node*> gate_FO);
+	void insertGate(Bn_Node* source_A, Bn_Node* source_B, string Ftype);
 	void denseSort(vector<Bn_Node*> &dense_vec);
 	void denseInsert(int num);
 	void doublePIkey(int num);
 	void notbuf2xor(int num);
 	void treeEncryption(int num);
+	void swgskg(int num);
 	
 	void test(char *argv[]);
 
@@ -70,6 +71,7 @@ private:
 	vector<string> gate_choice;
 	int counter = 0;
 	int internal_count = 0;
+	int new_PI = 0;
 	int new_count = 0; // new gate inside netlist
 	int cost = 0;
 	int quota = 0;
