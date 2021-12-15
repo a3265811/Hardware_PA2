@@ -137,21 +137,19 @@ void Bn_Ntk::denseInsert(int num){
 	vector<Bn_Node*> dense_arr;
 	denseSort(dense_arr);
 	srand(time(NULL));
-	int r_pos;
 
 	for(int i = 0; i < num; i++){
-		dice = rand();
-		if(dice < 0.2)
-			dice = 2;
-		else if(0.2 < dice && dice < 0.4)
-			dice = 3;
-		else if(0.4 < dice && dice < 0.6)
+		dice = rand() % 100;
+		if(dice < 25)
+			dice = 0;
+		else if(dice < 50)
+			dice = 1;
+		else if(dice < 75)
 			dice = 6;
 		else
 			dice = 7;
-//		insertGate(addPI(), dense_arr[i], gate_choice[6]);
-		r_pos = rand() % dense_arr.size();
-		insertGate(addPI(), dense_arr[i], gate_choice[dice]);
+		insertGate(addPI(), dense_arr[i], gate_choice[6]);
+//		insertGate(addPI(), dense_arr[i], gate_choice[dice]);
 		if(quota < 3)
 			return;
 		else
@@ -196,43 +194,80 @@ void Bn_Ntk::notbuf2xor(int num){
 }
 
 void Bn_Ntk::treeEncryption(int num){
+	//fstream fout;
+	//fout.open("statistics.txt",ios::out|ios::app);
 	vector<Bn_Node*> dense_arr;
 	denseSort(dense_arr);
 	srand(time(NULL));
+	//cout << "initial quota: " << quota << endl;
 	for(int i = 0; i < num; i++){
 		if(i >= dense_arr.size())
 			return;
 		int pos = 0;
-		int dice = rand() % 10;
-		/*while(pos < dense_arr[i]->FI_arr.size() && dense_arr[i]->FI_arr[pos]->type == "PI")
-			pos++;
-		if(pos >= dense_arr[i]->FI_arr.size()){
-			num++;
-			continue;
-		}*/
+		int dice = rand() % 100;
+		if(dice < 25){
+			dice = 0;
+			quota -= 1;
+		}
+		else if (dice < 50){
+			dice = 1;
+			quota -= 1;
+		}
+		else if (dice < 75){
+			dice = 6;
+			quota -= 3;
+		}
+		else{
+			dice = 7;
+			quota -= 3;
+		}
 		
-		insertGate(addPI(), dense_arr[i]->FI_arr[0], "xor");
-		insertGate(addPI(), dense_arr[i]->FI_arr[0]->FO_arr[0], "and");
-		insertGate(addPI(), dense_arr[i], "xor");
+		insertGate(addPI(), dense_arr[i]->FI_arr[0], gate_choice[dice]);
+	//	fout << setw(4) << gate_choice[dice] << " ";
+
+		dice = rand() % 100;
+		if(dice < 25){
+			dice = 0;
+			quota -= 1;
+		}
+		else if (dice < 50){
+			dice = 1;
+			quota -= 1;
+		}
+		else if (dice < 75){
+			dice = 6;
+			quota -= 3;
+		}
+		else{
+			dice = 7;
+			quota -= 3;
+		}
+		insertGate(addPI(), dense_arr[i], gate_choice[dice]);
+	//	fout << setw(4) << gate_choice[dice] << endl;
 		if(quota < 6 || num == 0)
 			return;
-		else
-			quota -= 6;
 	}
+	//fout.close();
 }
 
 void Bn_Ntk::test(char *argv[]){
 //	cout << "initial cost: " << cost << endl;
-	//denseInsert(internal_count * 0.5);
-	//notbuf2xor(internal_count * 0.5);
-	treeEncryption(internal_count * 0.5);
+	string str = argv[3];
+	if(str == "1")
+		notbuf2xor(internal_count);
+	else if(str == "2")
+		denseInsert(internal_count);
+	else if(str == "3")
+		treeEncryption(internal_count);
+	else
+		cout << "unknown command" << endl;
 	printNodeArr(argv);
-	string str = argv[2];
+	/*string str = argv[2];
 	str = str + " ";
 	str = str + argv[1];
 	str = "./satattack/bin/sld " + str;
 	const char *c = str.c_str();
-	system(c);
+	system(c);*/
 }
 
 

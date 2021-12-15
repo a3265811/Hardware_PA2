@@ -15,4 +15,4 @@ $(executable): $(objects)
 
 .PHONY: clean
 clean:
-	rm -rf *.o *.bench
+	rm -rf M11007428.o *.bench execution_log.txt statistics.txt new_bench enc.csv report quotaList.txt
